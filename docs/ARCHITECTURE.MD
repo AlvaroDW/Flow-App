@@ -12,7 +12,22 @@ This document outlines the key architectural decisions made in the design of the
 | Persistence | Offline-first Flow streams | Works without network, sync later if added |
 | Naming | UUID strings | Easy serialization, no migration pain on iOS/Android |
 
-## State flow
+## State management
+in the Flow application, state management is handled using a unidirectional data flow architecture. The core components of this architecture include:
+- UI Layer: The user interface is built using Jetpack Compose, which allows for declarative UI development. The UI layer observes state changes and renders the appropriate UI based on the current state.
+- Intent: User actions and events are captured as intents, which are sealed interfaces representing different user interactions. Intents are dispatched to the ViewModel for processing.
+- ViewModel: The ViewModel acts as a reducer, processing intents and updating the state accordingly. It maintains the current state and exposes it to the UI layer. The ViewModel also handles side effects, such as navigation or displaying messages.
+- State: The state is represented as an immutable data structure, ensuring that any changes to the state result in a new state object. This immutability helps prevent unintended side effects and makes it easier to reason about the application's behavior.
+- Domain/Use Cases: The domain layer contains the business logic and use cases of the application. It encapsulates the core functionality and provides a clear separation of concerns between the UI and the underlying business logic. The domain layer interacts with repositories to fetch or persist data as needed.
+- Repository: The repository layer is responsible for data access and persistence. It abstracts away the details of data storage, allowing the domain layer to interact with data sources without being tightly coupled to specific implementations. The repository can handle data from various sources, such as local databases or remote APIs.
+
+## Drag-and-drop logic
+
+## Reminders and due dates
+
+## State architecture
+
+### State flow
 The state flow in the application follows a unidirectional data flow pattern, ensuring that state changes are predictable and manageable. The flow consists of the following components:
 
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -38,7 +53,7 @@ The state flow in the application follows a unidirectional data flow pattern, en
                                     │  (DB, etc.) │
                                     └─────────────┘
 
-## State design decisions
+### State design decisions
 
 | Design Choice | Reasoning |
 |---|---|
